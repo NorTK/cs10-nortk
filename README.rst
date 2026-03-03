@@ -85,13 +85,13 @@ Para limpiar los archivos temporales de construcción:
 
 .. code-block:: sh
 
-    make clean
+    sudo make clean
 
 Para eliminar todos los resultados (incluyendo las imágenes ISO generadas):
 
 .. code-block:: sh
 
-    make distclean
+    sudo make distclean
 
 
 Referencias
