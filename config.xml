@@ -33,6 +33,7 @@
 		<namedCollection name="system-tools"/>
 		<package name="glibc-langpack-en"/>
 		<package name="glibc-langpack-es"/>
+		<package name="htop"/>
 		<package name="gdisk"/>
 		<package name="kernel-modules"/>
 		<package name="kernel-modules-extra"/>
