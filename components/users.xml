@@ -1,0 +1,5 @@
+<image schemaversion="8.0">
+	<users>
+		<user password="Los Nortekos." pwdformat="plain" home="/root" name="root" groups="root"/>
+	</users>
+</image>

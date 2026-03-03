@@ -1,0 +1,31 @@
+<image schemaversion="8.0">
+	<preferences profiles="Live">
+		<type image="iso" flags="dmsquash" firmware="uefi" hybridpersistent_filesystem="ext4" hybridpersistent="true" kernelcmdline="console=tty0 rhgb quiet">
+			<bootloader name="grub2" grub_template="grub.cfg.iso-template" console="console" timeout="10"/>
+		</type>
+	</preferences>
+
+	<preferences profiles="Disk">
+		<type image="oem" filesystem="ext4" installiso="true" installboot="install" firmware="uefi" kernelcmdline="console=tty0 rhgb quiet">
+			<bootloader name="grub2" grub_template="grub.cfg.iso-template" console="console" timeout="10"/>
+			<oemconfig>
+				<oem-systemsize>2048</oem-systemsize>
+				<oem-unattended>false</oem-unattended>
+				<oem-swap>true</oem-swap>
+				<oem-swapsize>1024</oem-swapsize>
+				<oem-multipath-scan>false</oem-multipath-scan>
+			</oemconfig>
+		</type>
+	</preferences>
+
+	<packages type="image" profiles="Live">
+		<package name="dracut-live"/>
+		<package name="dracut-network"/>
+	</packages>
+
+	<packages type="image" profiles="Disk">
+		<package name="dracut-kiwi-oem-repart"/>
+		<package name="dracut-kiwi-oem-dump"/>
+		<package name="dracut-network"/>
+	</packages>
+</image>

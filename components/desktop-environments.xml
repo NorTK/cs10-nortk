@@ -1,0 +1,16 @@
+<image schemaversion="8.0">
+	<profiles>
+		<profile name="MIN-Desktop" description="Minimal desktop"/>
+	</profiles>
+
+	<packages type="image" profiles="MIN-Desktop">
+		<package name="bash"/>
+		<package name="plymouth"/>
+		<package name="plymouth-plugin-script"/>
+		<package name="plymouth-plugin-two-step"/>
+		<package name="plymouth-plugin-label"/>
+		<package name="plymouth-scripts"/>
+		<package name="plymouth-theme-script"/>
+		<package name="plymouth-graphics-libs"/>
+	</packages>
+</image>

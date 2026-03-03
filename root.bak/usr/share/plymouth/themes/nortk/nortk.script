@@ -1,0 +1,14 @@
+// NorTK Plymouth Theme
+// Simple theme that displays the NorTK logo
+
+var_logo = Image("nortk-logo.svg");
+var logo_sprite = Sprite(var_logo);
+
+fun refresh_callback ()
+{
+    // Logo is displayed centered
+    logo_sprite.SetX(Window.GetWidth() / 2 - var_logo.GetWidth() / 2);
+    logo_sprite.SetY(Window.GetHeight() / 2 - var_logo.GetHeight() / 2);
+}
+
+Plymouth.SetRefreshFunction(refresh_callback);
