@@ -20,11 +20,11 @@ test-disk:
 	rm -f test-disk.qcow2
 
 clean:
-	rm -fr result-live/build/image-root*
-	rm -f result-live/NorTK-OS*
-	rm -fr result-disk/build/image-root*
-	rm -f result-disk/NorTK-OS*
+	sudo rm -fr result-live/build/image-root*
+	sudo rm -f result-live/NorTK-OS*
+	sudo rm -fr result-disk/build/image-root*
+	sudo rm -f result-disk/NorTK-OS*
 	rm -f *.qcow2
 
 distclean:
-	rm -fr result-*
+	sudo rm -fr result-*
