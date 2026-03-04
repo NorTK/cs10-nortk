@@ -27,13 +27,6 @@ echo "cs10.nortk.mx" > /etc/hostname
 # Ensure Plymouth uses the nortk theme
 if [ -x /usr/sbin/plymouth-set-default-theme ]; then
 	/usr/sbin/plymouth-set-default-theme nortk
-	# Detect the kernel version inside the image root
-	KVER=$(ls /lib/modules | head -n1)
-	echo "Detected kernel version for dracut: $KVER"
-	# Rebuild initrd and force inclusion of plymouth and graphics drivers
-	dracut --force --kver "$KVER" \
-		--add "plymouth" \
-		--add-drivers "virtio_gpu bochs_drm i915 amdgpu nouveau drm drm_kms_helper"
 fi
 
 #======================================
@@ -63,5 +56,20 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILWo3RJ88qk1RS+P6b8U+rFJ1GpIxKvWW7AGrgiCx8dK
 
 EOF
 chmod 600 /root/.ssh/authorized_keys
+
+#======================================
+# Memtest86+ setup
+#--------------------------------------
+if [ -d /usr/lib64/memtest86+ ]; then
+	mkdir -p /boot/memtest86+
+	# BIOS version
+	if [ -f /usr/lib64/memtest86+/memtest86+x64.bin ]; then
+		cp /usr/lib64/memtest86+/memtest86+x64.bin /boot/memtest86+/memtest86+
+	fi
+	# EFI version
+	if [ -f /usr/lib64/memtest86+/memtest86+x64.efi ]; then
+		cp /usr/lib64/memtest86+/memtest86+x64.efi /boot/memtest86+/memtest86+.efi
+	fi
+fi
 
 exit 0

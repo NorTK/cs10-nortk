@@ -1,6 +1,6 @@
 # Inspired by the config used for official live media
 
-set default=1
+set default=0
 
 if [ "$$grub_platform" = "efi" ]; then
 	function load_video {
@@ -23,6 +23,7 @@ set gfxpayload=keep
 insmod gzio
 insmod part_gpt
 insmod ext2
+insmod fat
 
 # Enable graphical terminal
 insmod font
@@ -50,6 +51,43 @@ menuentry "Test this media & start NorTK OS (CentOS Stream 10)" --class fedora -
 	linux ($$root)${bootpath}/${kernel_file} ${boot_options} rd.live.check
 	initrd ($$root)${bootpath}/${initrd_file}
 }
+
+if [ "$$grub_platform" = "efi" ]; then
+	menuentry "Memtest86+ (EFI)" {
+		chainloader ($$root)/boot/memtest86+/memtest86+.efi
+	}
+else
+	menuentry "Memtest86+ (BIOS)" {
+		linux16 ($$root)/boot/memtest86+/memtest86+
+	}
+fi
+
+menuentry "Boot from local drive" --class fedora --class gnu-linux --class gnu --class os {
+	if [ "$$grub_platform" = "efi" ]; then
+		insmod chain
+		search --no-floppy --set=target --file /EFI/nortk/grubx64.efi
+		if [ -n "$$target" ]; then
+			chainloader ($$target)/EFI/nortk/grubx64.efi
+		else
+			search --no-floppy --set=target --file /EFI/fedora/grubx64.efi
+			if [ -n "$$target" ]; then
+				chainloader ($$target)/EFI/fedora/grubx64.efi
+			else
+				search --no-floppy --set=target --file /EFI/centos/grubx64.efi
+				if [ -n "$$target" ]; then
+					chainloader ($$target)/EFI/centos/grubx64.efi
+				else
+					search --no-floppy --set=target --file /EFI/BOOT/BOOTX64.EFI
+					if [ -n "$$target" ]; then
+						chainloader ($$target)/EFI/BOOT/BOOTX64.EFI
+					fi
+				fi
+			fi
+		fi
+	fi
+	exit
+}
+
 submenu "Troubleshooting -->" {
 	menuentry "Start NorTK OS (CentOS Stream 10) in basic graphics mode" --class fedora --class gnu-linux --class gnu --class os {
 		linux ($$root)${bootpath}/${kernel_file} ${boot_options} $${basicgfx}

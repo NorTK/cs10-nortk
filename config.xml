@@ -2,21 +2,21 @@
 
 <image schemaversion="8.0" name="NorTK-OS">
 	<description type="system">
-		<author>Renich Bon Ćirić</author>
+		<author>Rénich Bon Ćirić</author>
 		<contact>renich@nortk.com</contact>
 		<specification>NorTK OS (CentOS Stream 10)</specification>
 	</description>
 
 	<preferences>
-		<version>0.1.0</version>
-		<packagemanager>dnf4</packagemanager>
-		<locale>en_US</locale>
-		<keytable>es</keytable>
-		<timezone>UTC</timezone>
-		<release-version>10</release-version>
 		<bootsplash-theme>nortk</bootsplash-theme>
-		<rpm-check-signatures>false</rpm-check-signatures>
+		<keytable>es</keytable>
+		<locale>en_US</locale>
+		<packagemanager>dnf4</packagemanager>
+		<rpm-check-signatures>true</rpm-check-signatures>
 		<rpm-excludedocs>true</rpm-excludedocs>
+		<timezone>UTC</timezone>
+		<version>0.1.0</version>
+		<release-version>10</release-version>
 	</preferences>
 
 	<include from="this://./repositories/core.xml"/>
@@ -28,20 +28,23 @@
 	<include from="this://./platforms/workstation.xml"/>
 
 	<packages type="image" patternType="plusRecommended">
-		<namedCollection name="core"/>
 		<namedCollection name="base"/>
+		<namedCollection name="core"/>
 		<namedCollection name="system-tools"/>
+		<package name="e2fsprogs"/>
+		<package name="gdisk"/>
 		<package name="glibc-langpack-en"/>
 		<package name="glibc-langpack-es"/>
 		<package name="htop"/>
-		<package name="gdisk"/>
 		<package name="kernel-modules"/>
+		<package name="kernel-modules-core"/>
 		<package name="kernel-modules-extra"/>
+		<package name="memtest86+"/>
 	</packages>
 
 	<packages type="bootstrap">
 		<package name="basesystem"/>
-		<package name="filesystem"/>
 		<package name="dnf"/>
+		<package name="filesystem"/>
 	</packages>
 </image>
