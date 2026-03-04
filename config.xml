@@ -13,15 +13,15 @@
 	</profiles>
 
 	<preferences>
-		<version>0.1.0</version>
-		<packagemanager>dnf4</packagemanager>
-		<locale>en_US</locale>
-		<keytable>es</keytable>
-		<timezone>UTC</timezone>
-		<release-version>10</release-version>
 		<bootsplash-theme>nortk</bootsplash-theme>
+		<keytable>es</keytable>
+		<locale>en_US</locale>
+		<packagemanager>dnf4</packagemanager>
 		<rpm-check-signatures>true</rpm-check-signatures>
 		<rpm-excludedocs>true</rpm-excludedocs>
+		<timezone>UTC</timezone>
+		<version>0.1.0</version>
+		<release-version>10</release-version>
 	</preferences>
 
 	<preferences profiles="Live">
@@ -33,6 +33,7 @@
 	<preferences profiles="Disk">
 		<type image="oem" volid="NorTKOS" filesystem="ext4" installiso="true" installboot="install" firmware="uefi" kernelcmdline="console=tty0 rhgb quiet rd.kiwi.install.selectdisk=1">
 			<bootloader name="grub2" grub_template="grub.cfg.iso-template" console="console" timeout="10"/>
+
 			<oemconfig>
 				<oem-unattended>false</oem-unattended>
 				<oem-reboot>true</oem-reboot>
@@ -76,28 +77,29 @@
 		<namedCollection name="base"/>
 		<namedCollection name="core"/>
 		<namedCollection name="system-tools"/>
+
+		<package name="bash"/>
 		<package name="e2fsprogs"/>
 		<package name="epel-release"/>
 		<package name="gdisk"/>
 		<package name="glibc-langpack-en"/>
 		<package name="glibc-langpack-es"/>
+		<package name="grub2-efi-x64" arch="x86_64"/>
+		<package name="grub2-efi-x64-modules" arch="x86_64"/>
+		<package name="grub2-pc" arch="x86_64"/>
+		<package name="grub2-pc-modules" arch="x86_64"/>
 		<package name="htop"/>
 		<package name="kernel"/>
 		<package name="kernel-modules"/>
 		<package name="kernel-modules-core"/>
 		<package name="kernel-modules-extra"/>
-		<package name="bash"/>
 		<package name="plymouth"/>
+		<package name="plymouth-graphics-libs"/>
+		<package name="plymouth-plugin-label"/>
 		<package name="plymouth-plugin-script"/>
 		<package name="plymouth-plugin-two-step"/>
-		<package name="plymouth-plugin-label"/>
 		<package name="plymouth-scripts"/>
 		<package name="plymouth-theme-script"/>
-		<package name="plymouth-graphics-libs"/>
-		<package name="grub2-efi-x64" arch="x86_64"/>
-		<package name="grub2-efi-x64-modules" arch="x86_64"/>
-		<package name="grub2-pc" arch="x86_64"/>
-		<package name="grub2-pc-modules" arch="x86_64"/>
 		<package name="shim-x64" arch="x86_64"/>
 	</packages>
 
@@ -107,8 +109,8 @@
 	</packages>
 
 	<packages type="image" profiles="Disk">
-		<package name="dracut-kiwi-oem-repart"/>
 		<package name="dracut-kiwi-oem-dump"/>
+		<package name="dracut-kiwi-oem-repart"/>
 		<package name="dracut-network"/>
 	</packages>
 
