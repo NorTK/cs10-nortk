@@ -44,23 +44,9 @@ set timeout_style=${boot_timeout_style}
 search ${search_params}
 
 menuentry "Start NorTK OS (CentOS Stream 10)" --class fedora --class gnu-linux --class gnu --class os {
-	linux ($$root)${bootpath}/${kernel_file} ${boot_options}
+	linux ($$root)${bootpath}/${kernel_file} ${boot_options} root=live:LABEL=NORTK
 	initrd ($$root)${bootpath}/${initrd_file}
 }
-menuentry "Test this media & start NorTK OS (CentOS Stream 10)" --class fedora --class gnu-linux --class gnu --class os {
-	linux ($$root)${bootpath}/${kernel_file} ${boot_options} rd.live.check
-	initrd ($$root)${bootpath}/${initrd_file}
-}
-
-if [ "$$grub_platform" = "efi" ]; then
-	menuentry "Memtest86+ (EFI)" {
-		chainloader ($$root)/boot/memtest86+/memtest86+.efi
-	}
-else
-	menuentry "Memtest86+ (BIOS)" {
-		linux16 ($$root)/boot/memtest86+/memtest86+
-	}
-fi
 
 menuentry "Boot from local drive" --class fedora --class gnu-linux --class gnu --class os {
 	if [ "$$grub_platform" = "efi" ]; then

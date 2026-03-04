@@ -14,11 +14,6 @@ test -f /.profile && . /.profile
 echo "Configure image: [$kiwi_iname]-[$kiwi_profiles]..."
 
 #======================================
-# Enable CRB repo by default
-#--------------------------------------
-dnf --assumeyes config-manager --set-enabled crb
-
-#======================================
 # Branding
 #--------------------------------------
 # Force hostname
@@ -56,20 +51,5 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILWo3RJ88qk1RS+P6b8U+rFJ1GpIxKvWW7AGrgiCx8dK
 
 EOF
 chmod 600 /root/.ssh/authorized_keys
-
-#======================================
-# Memtest86+ setup
-#--------------------------------------
-if [ -d /usr/lib64/memtest86+ ]; then
-	mkdir -p /boot/memtest86+
-	# BIOS version
-	if [ -f /usr/lib64/memtest86+/memtest86+x64.bin ]; then
-		cp /usr/lib64/memtest86+/memtest86+x64.bin /boot/memtest86+/memtest86+
-	fi
-	# EFI version
-	if [ -f /usr/lib64/memtest86+/memtest86+x64.efi ]; then
-		cp /usr/lib64/memtest86+/memtest86+x64.efi /boot/memtest86+/memtest86+.efi
-	fi
-fi
 
 exit 0
