@@ -99,11 +99,10 @@ Para eliminar todos los resultados (incluyendo las imágenes ISO generadas):
 Tema GRUB
 ---------
 
-GRUB templates:
-- ``grub.cfg.iso-template`` (used by Live ISO)
-- ``grub.cfg.disk.iso-template`` (used by Disk installer, focused on installation)
-
-The theme is maintained in ``cdroot/boot/grub2/themes/nortk/``. The script ``scripts/update-cdroot.bash`` generates ``config-cdroot.tar.zst`` that Kiwi uses to include the theme in both images.
+GRUB configuration:
+- Live ISO uses static ``cdroot/boot/grub2/grub.cfg`` (injected via config-cdroot.tar.zst)
+- Disk installer uses ``grub.cfg.disk.iso-template``
+- Theme is in ``cdroot/boot/grub2/themes/nortk/``. Run ``scripts/update-cdroot.bash`` before building.
 
 
 Referencias
