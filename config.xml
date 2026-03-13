@@ -27,7 +27,7 @@
 
 	<preferences profiles="Live">
 		<type image="iso" volid="NorTKOS" flags="overlay" firmware="uefi" hybridpersistent_filesystem="ext4" hybridpersistent="true" selinux_policy="targeted" editbootconfig="editbootconfig.sh" editbootinstall="editbootinstall.sh" kernelcmdline="console=tty0 console=ttyS0,115200 rhgb quiet">
-			<bootloader name="grub2" timeout="10"/>
+			<bootloader name="grub2" grub_template="grub.cfg.iso-template" timeout="10"/>
 		</type>
 	</preferences>
 
