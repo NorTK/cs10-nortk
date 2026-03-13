@@ -99,7 +99,11 @@ Para eliminar todos los resultados (incluyendo las imágenes ISO generadas):
 Tema GRUB
 ---------
 
-El tema GRUB se mantiene en el directorio ``cdroot/boot/grub2/themes/nortk/``. El script ``scripts/update-cdroot.bash`` se encarga de generar el archivo ``config-cdroot.tar.zst`` que Kiwi usa para incluir el tema en la ISO.
+GRUB templates:
+- ``grub.cfg.iso-template`` (used by Live ISO)
+- ``grub.cfg.disk.iso-template`` (used by Disk installer, focused on installation)
+
+The theme is maintained in ``cdroot/boot/grub2/themes/nortk/``. The script ``scripts/update-cdroot.bash`` generates ``config-cdroot.tar.zst`` that Kiwi uses to include the theme in both images.
 
 
 Referencias

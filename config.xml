@@ -32,7 +32,7 @@
 
 	<preferences profiles="Disk">
 		<type image="oem" volid="NorTKOS" filesystem="ext4" installiso="true" installboot="install" firmware="uefi" kernelcmdline="console=tty0 console=ttyS0,115200 rhgb quiet rd.kiwi.install.selectdisk=1">
-			<bootloader name="grub2" grub_template="grub.cfg.iso-template" timeout="10"/>
+			<bootloader name="grub2" grub_template="grub.cfg.disk.iso-template" timeout="10"/>
 
 			<oemconfig>
 				<oem-unattended>false</oem-unattended>

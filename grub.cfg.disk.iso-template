@@ -1,0 +1,47 @@
+# Inspired by the config used for official live media (c10s)
+
+set default=0
+
+if [ "$$grub_platform" = "efi" ]; then
+	function load_video {
+		insmod efi_gop
+		insmod efi_uga
+		insmod video_bochs
+		insmod video_cirrus
+		insmod all_video
+	}
+	set basicgfx="nomodeset"
+else
+	function load_video {
+		insmod all_video
+	}
+	set basicgfx="nomodeset vga=791"
+fi
+
+load_video
+set gfxpayload=keep
+set gfxmode=3840x2160,1920x1080,auto
+insmod gzio
+insmod part_gpt
+insmod ext2
+insmod fat
+
+terminal_input console
+terminal_output gfxterm
+
+set timeout=${boot_timeout}
+set timeout_style=${boot_timeout_style}
+
+search ${search_params}
+
+menuentry "Install NorTK OS (CentOS Stream 10)" --class fedora --class gnu-linux --class gnu --class os {
+	linux ($$root)${bootpath}/${kernel_file} ${boot_options} rd.kiwi.install
+	initrd ($$root)${bootpath}/${initrd_file}
+}
+
+submenu "Troubleshooting -->" {
+	menuentry "Install NorTK OS in basic graphics mode" --class fedora --class gnu-linux --class gnu --class os {
+		linux ($$root)${bootpath}/${kernel_file} ${boot_options} $${basicgfx} rd.kiwi.install
+		initrd ($$root)${bootpath}/${initrd_file}
+	}
+}
