@@ -1,4 +1,1 @@
-*~
-*.swp
-result-*/
-*.qcow2
+config-cdroot*.tar.zstconfig-cdroot*.tar.zst
