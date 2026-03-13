@@ -14,6 +14,7 @@
 
 	<preferences>
 		<bootsplash-theme>nortk</bootsplash-theme>
+		<bootloader-theme>nortk</bootloader-theme>
 		<keytable>es</keytable>
 		<locale>en_US</locale>
 		<packagemanager>dnf4</packagemanager>

@@ -100,9 +100,10 @@ Tema GRUB
 ---------
 
 GRUB configuration:
-- Live ISO uses static ``cdroot/boot/grub2/grub.cfg`` (injected via config-cdroot.tar.zst)
-- Disk installer uses ``grub.cfg.disk.iso-template``
-- Theme is in ``cdroot/boot/grub2/themes/nortk/``. Run ``scripts/update-cdroot.bash`` before building.
+- Live ISO uses static ``cdroot/boot/grub2/grub.cfg`` (injected via config-cdroot.tar.zst) with ``nortk`` theme explicitly loaded (fonts + ``set theme``).
+- Installed system uses ``<bootloader-theme>nortk</bootloader-theme>`` in config.xml (sets GRUB_THEME via kiwi + grub2-mkconfig).
+- Disk installer uses ``grub.cfg.disk.iso-template``.
+- Live theme assets in ``cdroot/boot/grub2/themes/nortk/`` (Dark Matter based + background.png); run ``scripts/update-cdroot.bash`` after changes.
 
 
 Referencias
