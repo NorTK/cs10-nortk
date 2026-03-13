@@ -20,6 +20,7 @@ fi
 
 load_video
 set gfxpayload=keep
+set gfxmode=3840x2160,1920x1080,auto
 insmod gzio
 insmod part_gpt
 insmod ext2
@@ -28,11 +29,17 @@ insmod fat
 # Enable graphical terminal
 insmod font
 if loadfont unicode ; then
-  set gfxmode=auto
+  set gfxmode=3840x2160,1920x1080,auto
   insmod gfxterm
   set locale_dir=($$root)/boot/grub2/locale
   set lang=en_US
   insmod gettext
+
+  # NorTK GRUB Theme
+  insmod jpeg
+  insmod png
+  set theme=/boot/grub2/themes/nortk/theme.txt
+  export theme
 fi
 
 terminal_input console
@@ -44,7 +51,7 @@ set timeout_style=${boot_timeout_style}
 search ${search_params}
 
 menuentry "Start NorTK OS (CentOS Stream 10)" --class fedora --class gnu-linux --class gnu --class os {
-	linux ($$root)${bootpath}/${kernel_file} ${boot_options} root=live:LABEL=NORTK
+	linux ($$root)${bootpath}/${kernel_file} ${boot_options} root=live:LABEL=NorTKOS
 	initrd ($$root)${bootpath}/${initrd_file}
 }
 

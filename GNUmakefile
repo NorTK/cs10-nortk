@@ -3,6 +3,7 @@ version=0.1.0
 
 build-live:
 	-setenforce 0
+	scripts/update-cdroot.bash || true
 	kiwi-ng --profile=Live system build --description=. --target-dir=result-live/
 	-setenforce 1
 
@@ -12,7 +13,11 @@ build-disk:
 	-setenforce 1
 
 test-live:
-	qemu-kvm -enable-kvm -machine pc,vmport=off -cpu host -smp 4 -m 8192 -bios /usr/share/edk2/ovmf/OVMF_CODE.fd -drive file=result-live/NorTK-OS.x86_64-$(version).iso,media=cdrom -nic user,hostfwd=tcp::2222-:22 -usb -device usb-tablet
+	qemu-kvm -enable-kvm -machine pc,vmport=off -cpu host -smp 4 -m 8192 \
+		-bios /usr/share/edk2/ovmf/OVMF_CODE.fd \
+		-drive file=result-live/NorTK-OS.x86_64-$(version).iso,media=cdrom \
+		-nic user,hostfwd=tcp::2222-:22 -usb -device usb-tablet \
+		-vga virtio -display sdl,gl=on -s
 
 test-disk:
 	qemu-img create -f qcow2 test-disk.qcow2 20G
@@ -33,6 +38,7 @@ clean:
 	sudo rm -fr result-disk/build/image-root*
 	sudo rm -f result-disk/NorTK-OS*
 	rm -f *.qcow2 test-vars.fd
+	rm -f config-cdroot.tar.zst
 
 
 distclean:
