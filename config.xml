@@ -25,14 +25,14 @@
 	</preferences>
 
 	<preferences profiles="Live">
-		<type image="iso" volid="NorTKOS" flags="dmsquash" firmware="uefi" hybridpersistent_filesystem="ext4" hybridpersistent="true" kernelcmdline="console=tty0 rhgb quiet">
-			<bootloader name="grub2" grub_template="grub.cfg.iso-template" console="console" timeout="10"/>
+		<type image="iso" volid="NorTKOS" flags="dmsquash" firmware="uefi" hybridpersistent_filesystem="ext4" hybridpersistent="true" kernelcmdline="console=tty0 console=ttyS0,115200 rhgb quiet">
+			<bootloader name="grub2" grub_template="grub.cfg.iso-template" timeout="10"/>
 		</type>
 	</preferences>
 
 	<preferences profiles="Disk">
-		<type image="oem" volid="NorTKOS" filesystem="ext4" installiso="true" installboot="install" firmware="uefi" kernelcmdline="console=tty0 rhgb quiet rd.kiwi.install.selectdisk=1">
-			<bootloader name="grub2" grub_template="grub.cfg.iso-template" console="console" timeout="10"/>
+		<type image="oem" volid="NorTKOS" filesystem="ext4" installiso="true" installboot="install" firmware="uefi" kernelcmdline="console=tty0 console=ttyS0,115200 rhgb quiet rd.kiwi.install.selectdisk=1">
+			<bootloader name="grub2" grub_template="grub.cfg.iso-template" timeout="10"/>
 
 			<oemconfig>
 				<oem-unattended>false</oem-unattended>
@@ -78,8 +78,6 @@
 		<namedCollection name="core"/>
 		<namedCollection name="system-tools"/>
 
-		<package name="bash"/>
-		<package name="e2fsprogs"/>
 		<package name="epel-release"/>
 		<package name="gdisk"/>
 		<package name="glibc-langpack-en"/>
@@ -93,7 +91,6 @@
 		<package name="kernel-modules"/>
 		<package name="kernel-modules-core"/>
 		<package name="kernel-modules-extra"/>
-		<package name="plymouth"/>
 		<package name="plymouth-graphics-libs"/>
 		<package name="plymouth-plugin-label"/>
 		<package name="plymouth-plugin-script"/>

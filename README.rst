@@ -57,6 +57,9 @@ Construcción
     # construir la imagen de disco (OEM/Instalación)
     sudo make build-disk
 
+    # actualizar el archivo cdroot con el tema GRUB
+    scripts/update-cdroot.bash
+
 Pruebas
 -------
 
@@ -92,6 +95,11 @@ Para eliminar todos los resultados (incluyendo las imágenes ISO generadas):
 .. code-block:: sh
 
     sudo make distclean
+
+Tema GRUB
+---------
+
+El tema GRUB se mantiene en el directorio ``cdroot/boot/grub2/themes/nortk/``. El script ``scripts/update-cdroot.bash`` se encarga de generar el archivo ``config-cdroot.tar.zst`` que Kiwi usa para incluir el tema en la ISO.
 
 
 Referencias
