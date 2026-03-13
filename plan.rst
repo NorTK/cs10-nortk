@@ -2,57 +2,44 @@
 KIWI-ng Improvements Plan for NorTK
 ====================================
 
-Based on review of kiwi-ng documentation (elements.rst, build_live_iso.rst,
-customize_the_boot_process.rst, etc.) and current project state.
+Based on kiwi-ng docs (elements.rst, build_live_iso.rst, customize_the_boot_process.rst)
+and Gemini architectural review. **Corrected for execution pipeline and schema.**
 
-Current Strengths
-=================
-- Good use of profiles, repositories with signing, hybrid live ISO.
-- Custom nortk theme in cdroot/ and root/, Plymouth integration.
-- update-cdroot.bash workflow.
+Current State
+=============
+- Static GRUB configs + cdroot/root overlays work but are brittle.
+- ``<bootloader-theme>`` added; theme loads but not ideal long-term.
 
-Prioritized Improvements
-========================
+Prioritized Improvements (Gemini + docs verified)
+===========================================
 
-1. **SELinux Hardening** (High)
+1. **SELinux (High)**
    - Add ``selinux_policy="targeted"`` to both ``<type>`` elements.
-   - Add packages: ``selinux-policy-targeted policycoreutils``.
-   - Add ``restorecon -R -v /`` (or targeted paths) in ``config.sh``.
-   - Remove temporary ``setenforce 0`` from Makefile where possible.
+   - Add packages ``selinux-policy-targeted policycoreutils`` (if not in groups).
+   - **Do not** add ``restorecon`` in ``config.sh`` (KIWI runs ``setfiles`` automatically).
 
-2. **Dynamic Bootloader Configuration**
-   - Create ``editbootconfig.sh`` and ``editbootinstall.sh`` in root.
+2. **Bootloader (High)**
+   - Create ``editbootconfig.sh`` and ``editbootinstall.sh`` in project root (build-host only).
    - Add to ``<type>``: ``editbootconfig="editbootconfig.sh" editbootinstall="editbootinstall.sh"``.
-   - Reduce reliance on fully static ``grub.cfg`` files; leverage ``${theme}``, ``${gfxmode}`` variables.
+   - Migrate from static ``grub.cfg``; use hooks + ``${theme}``.
 
-3. **Dracut and Overlay Enhancements**
-   - Add ``root/etc/dracut.conf.d/90-nortk.conf`` with kiwi-live/overlay modules.
-   - Consider switching Live to ``flags="overlay"`` for better kiwi integration.
-   - Add custom dracut hooks for boot-time customizations.
+3. **Dracut & Live ISO**
+   - Use ``flags="overlay"`` on Live ``<type image="iso">`` (enables kiwi-live module).
+   - Include ``dracut-kiwi-live`` in Live packages.
+   - Add ``root/etc/dracut.conf.d/90-nortk.conf`` (documented for prototypes).
 
-4. **Package and Profile Refinements**
-   - Split packages by profile (Live vs Disk).
-   - Package the nortk Plymouth theme properly.
-   - Add missing dracut-kiwi modules and reduce bootstrap duplication.
-
-5. **GRUB Theme Consistency**
-   - Ensure both live (Dark Matter/nortk) and installed themes are fully covered.
-   - Update templates to consistently reference theme.
-
-6. **Documentation and Maintainability**
-   - Expand README.rst with build troubleshooting and SELinux notes.
-   - Add ``<include>`` for shared config fragments.
-   - Create dedicated ``plan.rst`` (this file) and update after changes.
+4. **Packaging & Maintainability**
+   - ``root/`` + ``cdroot/`` OK for prototypes per docs; convert to RPMs for production.
+   - Split packages by profile; reduce bootstrap duplication.
+   - Expand README with build/SELinux notes.
 
 Next Steps
 ==========
-- Implement highest priority items (SELinux + editboot scripts).
-- Test with ``make build-live`` and ``make test-live``.
-- Run ``kiwi-ng system build --debug ...`` for validation.
+1. Update ``config.xml`` (add SELinux policy + ensure ``flags="overlay"``).
+2. Implement ``editboot*.sh`` scripts.
+3. Test: ``sudo make build-live && make test-live``.
 
 References
 ==========
-- kiwi-ng docs: ``~/src/kiwi/doc/source/image_description/elements.rst``
-- Current commit: bb83fe3 (feat(grub): enable nortk theme)
-
-.. vim: set filetype=rst:
+- kiwi-ng: ``~/src/kiwi/doc/source/image_description/elements.rst``
+- Latest commit: 34e8c71
