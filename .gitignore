@@ -1,1 +1,6 @@
-config-cdroot*.tar.zstconfig-cdroot*.tar.zst
+# Generated files
+config-cdroot*.tar.zst
+*.iso
+result-*/
+test-*.qcow2
+test-vars.fd
