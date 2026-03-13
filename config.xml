@@ -26,13 +26,13 @@
 	</preferences>
 
 	<preferences profiles="Live">
-		<type image="iso" volid="NorTKOS" flags="dmsquash" firmware="uefi" hybridpersistent_filesystem="ext4" hybridpersistent="true" kernelcmdline="console=tty0 console=ttyS0,115200 rhgb quiet">
+		<type image="iso" volid="NorTKOS" flags="overlay" firmware="uefi" hybridpersistent_filesystem="ext4" hybridpersistent="true" selinux_policy="targeted" editbootconfig="editbootconfig.sh" editbootinstall="editbootinstall.sh" kernelcmdline="console=tty0 console=ttyS0,115200 rhgb quiet">
 			<bootloader name="grub2" timeout="10"/>
 		</type>
 	</preferences>
 
 	<preferences profiles="Disk">
-		<type image="oem" volid="NorTKOS" filesystem="ext4" installiso="true" installboot="install" firmware="uefi" kernelcmdline="console=tty0 console=ttyS0,115200 rhgb quiet rd.kiwi.install.selectdisk=1">
+		<type image="oem" volid="NorTKOS" filesystem="ext4" installiso="true" installboot="install" firmware="uefi" selinux_policy="targeted" editbootconfig="editbootconfig.sh" editbootinstall="editbootinstall.sh" kernelcmdline="console=tty0 console=ttyS0,115200 rhgb quiet rd.kiwi.install.selectdisk=1">
 			<bootloader name="grub2" grub_template="grub.cfg.disk.iso-template" timeout="10"/>
 
 			<oemconfig>
@@ -99,10 +99,13 @@
 		<package name="plymouth-scripts"/>
 		<package name="plymouth-theme-script"/>
 		<package name="shim-x64" arch="x86_64"/>
+		<package name="selinux-policy-targeted"/>
+		<package name="policycoreutils"/>
 	</packages>
 
 	<packages type="image" profiles="Live">
 		<package name="dracut-live"/>
+		<package name="dracut-kiwi-live"/>
 		<package name="dracut-network"/>
 	</packages>
 

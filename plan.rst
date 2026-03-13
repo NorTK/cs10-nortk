@@ -11,7 +11,7 @@ Current State
 - ``<bootloader-theme>`` added; theme loads but not ideal long-term.
 
 Prioritized Improvements (Gemini + docs verified)
-===========================================
+=================================================
 
 1. **SELinux (High)**
    - Add ``selinux_policy="targeted"`` to both ``<type>`` elements.
