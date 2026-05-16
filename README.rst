@@ -99,11 +99,53 @@ Para eliminar todos los resultados (incluyendo las imágenes ISO generadas):
 Tema GRUB
 ---------
 
-GRUB configuration:
-- Live ISO uses static ``cdroot/boot/grub2/grub.cfg`` (injected via config-cdroot.tar.zst) with ``nortk`` theme explicitly loaded (fonts + ``set theme``).
-- Installed system uses ``<bootloader-theme>nortk</bootloader-theme>`` in config.xml (sets GRUB_THEME via kiwi + grub2-mkconfig).
-- Disk installer uses ``grub.cfg.disk.iso-template``.
-- Live theme assets in ``cdroot/boot/grub2/themes/nortk/`` (Dark Matter based + background.png); run ``scripts/update-cdroot.bash`` after changes.
+La configuración de GRUB se gestiona de la siguiente manera:
+
+- El Live ISO y el Disco utilizan plantillas de KIWI (``grub.cfg.iso-template``, ``grub.cfg.disk.iso-template``).
+- Los activos del tema se encuentran en ``root/boot/grub2/themes/nortk/``.
+- Después de realizar cambios en el tema, ejecuta ``scripts/update-cdroot.bash`` para actualizar los archivos en el área de construcción.
+
+Resolución en Sistema Instalado (Workaround)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Debido a que KIWI-ng sobrescribe los valores predeterminados en ``/etc/default/grub`` durante la fase de creación del sistema, la resolución en el sistema instalado cae a ``auto`` (usualmente 1024x768). Para forzar la resolución a 1920x1080, utilizamos una solución alternativa (workaround) en ``root/etc/grub.d/01_nortk_theme``:
+
+.. code-block:: sh
+
+    # Re-initialize gfxterm to apply the new resolution
+    echo "terminal_output console"
+    echo "terminal_output gfxterm"
+
+Esto obliga a GRUB a reiniciar la terminal gráfica y aplicar el valor de ``gfxmode`` que definimos previamente (1080p), evadiendo el valor predeterminado impuesto por KIWI. Hay un reporte oficial abierto *upstream* respecto a este problema: https://github.com/OSInside/kiwi/issues/2998
+
+Previsualización del Tema
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Para ver cómo se ve el tema de GRUB sin tener que construir toda la imagen, se recomienda usar ``grub2-theme-preview``.
+
+**Instalación:**
+
+.. code-block:: sh
+
+    # 1. Instalar dependencias del sistema necesarias para generar la ISO de prueba
+    sudo dnf install -y grub2-tools-extra xorriso qemu-kvm
+
+    # 2. Instalar la herramienta vía pip
+    pip install -U --user grub2-theme-preview
+
+**Uso:**
+
+.. code-block:: sh
+
+    # Previsualizar el tema (asegúrate de que ~/.local/bin esté en tu PATH)
+    grub2-theme-preview --add /boot/grub2/themes/nortk=$(pwd)/root/boot/grub2/themes/nortk \
+        root/boot/grub2/themes/nortk
+
+También puedes usar el atajo de make, que incluye la resolución recomendada:
+
+.. code-block:: sh
+
+    make theme-preview
 
 
 Referencias
