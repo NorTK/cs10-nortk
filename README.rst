@@ -148,6 +148,13 @@ También puedes usar el atajo de make, que incluye la resolución recomendada:
     make theme-preview
 
 
+Bugs Reportados Upstream
+========================
+Durante el desarrollo de este proyecto, se han identificado y reportado los siguientes problemas a los proyectos originales (upstream):
+
+* **KIWI-ng**: Falta de soporte para la resolución ``1920x1080x32`` en ``kiwi/defaults.py``. Este fallo provoca que la fase ``system create`` sobrescriba la configuración de GRUB en el sistema instalado.
+  - Issue: https://github.com/OSInside/kiwi/issues/2998
+
 Referencias
 ===========
 * https://osinside.github.io/kiwi/
