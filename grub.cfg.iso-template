@@ -1,52 +1,60 @@
-# Inspired by the config used for official live media (c10s)
+# NorTK Live ISO Template
 
 set default=0
+set timeout="${boot_timeout}"
+set timeout_style="${boot_timeout_style}"
+
+# Use search to find the root partition on the ISO
+search --file --set=root /boot/grub2/themes/nortk/theme.txt
 
 if [ "$$grub_platform" = "efi" ]; then
-	function load_video {
-		insmod efi_gop
-		insmod efi_uga
-		insmod video_bochs
-		insmod video_cirrus
-		insmod all_video
-	}
-	set basicgfx="nomodeset"
+    function load_video {
+        insmod efi_gop
+        insmod efi_uga
+        insmod video_bochs
+        insmod video_cirrus
+        insmod all_video
+    }
+    set basicgfx="nomodeset"
 else
-	function load_video {
-		insmod all_video
-	}
-	set basicgfx="nomodeset vga=791"
+    function load_video {
+        insmod all_video
+    }
+    set basicgfx="nomodeset vga=791"
 fi
 
 load_video
 set gfxpayload=keep
-set gfxmode=3840x2160,1920x1080,auto
+set gfxmode=1920x1080,1024x768,auto
 insmod gzio
 insmod part_gpt
 insmod ext2
 insmod fat
+insmod png
+insmod jpeg
 
 terminal_input console
 terminal_output gfxterm
 
-set timeout=${boot_timeout}
-set timeout_style=${boot_timeout_style}
-
-search ${search_params}
+insmod font
+if loadfont ($$root)/boot/grub2/themes/nortk/terminus-18.pf2; then
+    loadfont ($$root)/boot/grub2/themes/nortk/unifont-32.pf2
+    set theme=($$root)/boot/grub2/themes/nortk/theme.txt
+fi
 
 menuentry "Start NorTK OS (CentOS Stream 10)" --class fedora --class gnu-linux --class gnu --class os {
-	linux ($$root)${bootpath}/${kernel_file} ${boot_options} root=live:LABEL=NorTKOS
-	initrd ($$root)${bootpath}/${initrd_file}
+    linux ($$root)${bootpath}/${kernel_file} ${boot_options} root=live:CDLABEL=NorTKOS rd.live.overlay.persistent
+    initrd ($$root)${bootpath}/${initrd_file}
 }
 
 menuentry "Test this media & start NorTK OS (CentOS Stream 10)" --class fedora --class gnu-linux --class gnu --class os {
-	linux ($$root)${bootpath}/${kernel_file} ${boot_options} root=live:LABEL=NorTKOS rd.live.check
-	initrd ($$root)${bootpath}/${initrd_file}
+    linux ($$root)${bootpath}/${kernel_file} ${boot_options} root=live:CDLABEL=NorTKOS mediacheck=1 rd.live.overlay.persistent
+    initrd ($$root)${bootpath}/${initrd_file}
 }
 
 submenu "Troubleshooting -->" {
-	menuentry "Start NorTK OS (CentOS Stream 10) in basic graphics mode" --class fedora --class gnu-linux --class gnu --class os {
-		linux ($$root)${bootpath}/${kernel_file} ${boot_options} $${basicgfx} root=live:LABEL=NorTKOS
-		initrd ($$root)${bootpath}/${initrd_file}
-	}
+    menuentry "Start NorTK OS (CentOS Stream 10) in basic graphics mode" --class fedora --class gnu-linux --class gnu --class os {
+        linux ($$root)${bootpath}/${kernel_file} ${boot_options} $$basicgfx root=live:CDLABEL=NorTKOS rd.live.overlay.persistent
+        initrd ($$root)${bootpath}/${initrd_file}
+    }
 }

@@ -1,8 +1,27 @@
 [Plymouth Theme]
 Name=NorTK
-Description=NorTK Theme
-ModuleName=script
+Description=NorTK Spinner Theme
+ModuleName=two-step
 
-[script]
+[two-step]
 ImageDir=/usr/share/plymouth/themes/nortk
-ScriptFile=/usr/share/plymouth/themes/nortk/nortk.script
+HorizontalAlignment=.5
+VerticalAlignment=.7
+WatermarkHorizontalAlignment=.5
+WatermarkVerticalAlignment=.5
+Transition=none
+TransitionDuration=0.0
+BackgroundStartColor=0x000000
+BackgroundEndColor=0x000000
+ProgressBarBackgroundColor=0x606060
+ProgressBarForegroundColor=0xffffff
+MessageBelowAnimation=true
+
+[boot-up]
+UseEndAnimation=false
+
+[shutdown]
+UseEndAnimation=false
+
+[reboot]
+UseEndAnimation=false
