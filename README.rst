@@ -105,18 +105,16 @@ La configuración de GRUB se gestiona de la siguiente manera:
 - Los activos del tema se encuentran en ``root/boot/grub2/themes/nortk/``.
 - Después de realizar cambios en el tema, ejecuta ``scripts/update-cdroot.bash`` para actualizar los archivos en el área de construcción.
 
-Resolución en Sistema Instalado (Workaround)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Resolución en Sistema Instalado
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Debido a que KIWI-ng sobrescribe los valores predeterminados en ``/etc/default/grub`` durante la fase de creación del sistema, la resolución en el sistema instalado cae a ``auto`` (usualmente 1024x768). Para forzar la resolución a 1920x1080, utilizamos una solución alternativa (workaround) en ``root/etc/grub.d/01_nortk_theme``:
+A partir de KIWI v10.3.4 (gracias a nuestro reporte upstream y el PR #2999), la resolución de pantalla del cargador de arranque en el sistema instalado se configura de manera nativa utilizando el atributo ``video_mode="1920x1080x32"`` dentro de la etiqueta ``<bootloader>`` en ``config.xml``:
 
-.. code-block:: sh
+.. code-block:: xml
 
-    # Re-initialize gfxterm to apply the new resolution
-    echo "terminal_output console"
-    echo "terminal_output gfxterm"
+    <bootloader name="grub2" grub_template="..." timeout="10" video_mode="1920x1080x32">
 
-Esto obliga a GRUB a reiniciar la terminal gráfica y aplicar el valor de ``gfxmode`` que definimos previamente (1080p), evadiendo el valor predeterminado impuesto por KIWI. Hay un reporte oficial abierto *upstream* respecto a este problema: https://github.com/OSInside/kiwi/issues/2998
+Esto genera automáticamente ``GRUB_GFXMODE=1920x1080x32`` en ``/etc/default/grub`` en el sistema destino, haciendo completamente obsoleta cualquier solución alternativa (workaround) de re-inicialización manual de terminales gráficas. El reporte upstream original se encuentra en: https://github.com/OSInside/kiwi/issues/2998
 
 Previsualización del Tema
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -152,7 +150,8 @@ Bugs Reportados Upstream
 ========================
 Durante el desarrollo de este proyecto, se han identificado y reportado los siguientes problemas a los proyectos originales (upstream):
 
-* **KIWI-ng**: Falta de soporte para la resolución ``1920x1080x32`` en ``kiwi/defaults.py``. Este fallo provoca que la fase ``system create`` sobrescriba la configuración de GRUB en el sistema instalado.
+* **KIWI-ng**: Falta de soporte para la resolución ``1920x1080x32`` en ``kiwi/defaults.py``.
+  - Resuelto en: KIWI v10.3.4 (PR #2999) mediante el nuevo atributo nativo ``video_mode`` en la sección ``<bootloader>``.
   - Issue: https://github.com/OSInside/kiwi/issues/2998
 
 Referencias
